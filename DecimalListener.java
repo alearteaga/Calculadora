@@ -1,22 +1,22 @@
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
 public class DecimalListener implements ActionListener {
 
-    private JLabel display;
-    private boolean puntoDecimal;
+    private final JLabel display;
+    private final Calculadora calculadora;
 
-    public DecimalListener(JLabel display) {
+    public DecimalListener(JLabel display, Calculadora calculadora) {
         this.display = display;
-        this.puntoDecimal = false;
+        this.calculadora = calculadora;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (!puntoDecimal) {
+        if (!calculadora.isPuntoDecimal()) {
             display.setText(display.getText() + ".");
-            puntoDecimal = true;
+            calculadora.setPuntoDecimal(true);
         }
     }
 }

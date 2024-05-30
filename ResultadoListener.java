@@ -1,41 +1,30 @@
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
 public class ResultadoListener implements ActionListener {
 
-    private JLabel display;
-    private double operando1;
-    private String operacion;
+    private final JLabel display;
+    private final Calculadora calculadora;
 
-    public ResultadoListener(JLabel display) {
+    public ResultadoListener(JLabel display, Calculadora calculadora) {
         this.display = display;
-        this.operando1 = 0;
-        this.operacion = "";
+        this.calculadora = calculadora;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         double operando2 = Double.parseDouble(display.getText());
-        double resultado = 0;
-
-        switch (operacion) {
-            case "+":
-                resultado = operando1 + operando2;
-                break;
-            case "-":
-                resultado = operando1 - operando2;
-                break;
-            case "*":
-                resultado = operando1 * operando2;
-                break;
-            case "/":
-                resultado = operando1 / operando2;
-                break;
+        switch (calculadora.getOperacion()) {
+            case "+" -> calculadora.setOperando1(calculadora.getOperando1() + operando2);
+            case "-" -> calculadora.setOperando1(calculadora.getOperando1() - operando2);
+            case "*" -> calculadora.setOperando1(calculadora.getOperando1() * operando2);
+            case "/" -> calculadora.setOperando1(calculadora.getOperando1() / operando2);
         }
-
-        display.setText(String.valueOf(resultado));
-        operando1 = resultado;
-        operacion = "";
+        display.setText(String.valueOf(calculadora.getOperando1()));
+        calculadora.setNuevoNumero(true);
+        calculadora.setPuntoDecimal(false);
+        calculadora.setOperacion("");
     }
 }
+

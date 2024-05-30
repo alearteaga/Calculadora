@@ -1,21 +1,15 @@
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
 public class OperacionesListener implements ActionListener {
 
-    private JLabel display;
-    private String operacion;
-    private double operando1;
-    private boolean nuevoNumero;
-    private boolean puntoDecimal;
+    private final JLabel display;
+    private final Calculadora calculadora;
 
-    public OperacionesListener(JLabel display) {
+    public OperacionesListener(JLabel display, Calculadora calculadora) {
         this.display = display;
-        this.operacion = "";
-        this.operando1 = 0;
-        this.nuevoNumero = true;
-        this.puntoDecimal = false;
+        this.calculadora = calculadora;
     }
 
     @Override
@@ -24,27 +18,19 @@ public class OperacionesListener implements ActionListener {
         String textoBoton = boton.getText();
         double operando2 = Double.parseDouble(display.getText());
 
-        if (!operacion.equals("")) {
-            switch (operacion) {
-                case "+":
-                    operando1 += operando2;
-                    break;
-                case "-":
-                    operando1 -= operando2;
-                    break;
-                case "*":
-                    operando1 *= operando2;
-                    break;
-                case "/":
-                    operando1 /= operando2;
-                    break;
+        if (!calculadora.getOperacion().isEmpty()) {
+            switch (calculadora.getOperacion()) {
+                case "+" -> calculadora.setOperando1(calculadora.getOperando1() + operando2);
+                case "-" -> calculadora.setOperando1(calculadora.getOperando1() - operando2);
+                case "*" -> calculadora.setOperando1(calculadora.getOperando1() * operando2);
+                case "/" -> calculadora.setOperando1(calculadora.getOperando1() / operando2);
             }
-            display.setText(String.valueOf(operando1));
+            display.setText(String.valueOf(calculadora.getOperando1()));
         } else {
-            operando1 = operando2;
+            calculadora.setOperando1(operando2);
         }
-        operacion = textoBoton;
-        nuevoNumero = true;
-        puntoDecimal = false;
+        calculadora.setOperacion(textoBoton);
+        calculadora.setNuevoNumero(true);
+        calculadora.setPuntoDecimal(false);
     }
 }

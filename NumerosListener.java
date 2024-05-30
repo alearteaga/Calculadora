@@ -1,17 +1,15 @@
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
 public class NumerosListener implements ActionListener {
 
-    private JLabel display;
-    private boolean nuevoNumero;
-    private boolean puntoDecimal;
+    private final JLabel display;
+    private final Calculadora calculadora;
 
-    public NumerosListener(JLabel display) {
+    public NumerosListener(JLabel display, Calculadora calculadora) {
         this.display = display;
-        this.nuevoNumero = true;
-        this.puntoDecimal = false;
+        this.calculadora = calculadora;
     }
 
     @Override
@@ -19,18 +17,20 @@ public class NumerosListener implements ActionListener {
         JButton boton = (JButton) e.getSource();
         String textoBoton = boton.getText();
 
-        if (nuevoNumero) {
+        if (calculadora.isNuevoNumero()) {
             if (textoBoton.equals(".")) {
                 display.setText("0.");
-                puntoDecimal = true;
+                calculadora.setPuntoDecimal(true);
             } else {
                 display.setText(textoBoton);
             }
-            nuevoNumero = false;
+            calculadora.setNuevoNumero(false);
         } else {
-            if (!textoBoton.equals(".") || !puntoDecimal) {
+            if (!textoBoton.equals(".") || !calculadora.isPuntoDecimal()) {
                 display.setText(display.getText() + textoBoton);
-                if (textoBoton.equals(".")) puntoDecimal = true;
+                if (textoBoton.equals(".")) {
+                    calculadora.setPuntoDecimal(true);
+                }
             }
         }
     }

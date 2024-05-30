@@ -1,13 +1,21 @@
-import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 public class Calculadora extends JFrame {
 
     private JLabel display;
+    private double operando1;
+    private String operacion;
+    private boolean nuevoNumero;
+    private boolean puntoDecimal;
 
     public Calculadora() {
+        operando1 = 0;
+        operacion = "";
+        nuevoNumero = true;
+        puntoDecimal = false;
         initUI();
     }
 
@@ -34,7 +42,16 @@ public class Calculadora extends JFrame {
 
         for (String text : buttonTexts) {
             JButton button = new JButton(text);
-            button.addActionListener(this::actionPerformed);
+            switch (text) {
+                case "+" -> button.addActionListener(new OperacionesListener(display, this));
+                case "-" -> button.addActionListener(new OperacionesListener(display, this));
+                case "*" -> button.addActionListener(new OperacionesListener(display, this));
+                case "/" -> button.addActionListener(new OperacionesListener(display, this));
+                case "Resultado" -> button.addActionListener(new ResultadoListener(display, this));
+                case "C" -> button.addActionListener(new LimpiarListener(display, this));
+                case "." -> button.addActionListener(new DecimalListener(display, this));
+                default -> button.addActionListener(new NumerosListener(display, this));
+            }
             panelBotones.add(button);
         }
 
@@ -45,30 +62,37 @@ public class Calculadora extends JFrame {
         setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e) {
-        JButton button = (JButton) e.getSource();
-        String buttonText = button.getText();
+    // Getters y Setters
+    public boolean isNuevoNumero() {
+        return nuevoNumero;
+    }
 
-        switch (buttonText) {
-            case "+":
-            case "-":
-            case "*":
-            case "/":
-                new OperacionesListener(display).actionPerformed(e);
-                break;
-            case "Resultado":
-                new ResultadoListener(display).actionPerformed(e);
-                break;
-            case "C":
-                new LimpiarListener(display).actionPerformed(e);
-                break;
-            case ".":
-                new DecimalListener(display).actionPerformed(e);
-                break;
-            default:
-                new NumerosListener(display).actionPerformed(e);
-                break;
-        }
+    public void setNuevoNumero(boolean nuevoNumero) {
+        this.nuevoNumero = nuevoNumero;
+    }
+
+    public boolean isPuntoDecimal() {
+        return puntoDecimal;
+    }
+
+    public void setPuntoDecimal(boolean puntoDecimal) {
+        this.puntoDecimal = puntoDecimal;
+    }
+
+    public String getOperacion() {
+        return operacion;
+    }
+
+    public void setOperacion(String operacion) {
+        this.operacion = operacion;
+    }
+
+    public double getOperando1() {
+        return operando1;
+    }
+
+    public void setOperando1(double operando1) {
+        this.operando1 = operando1;
     }
 
     public static void main(String[] args) {

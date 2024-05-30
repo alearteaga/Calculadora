@@ -42,10 +42,7 @@ public class Calculadora extends JFrame {
         for (String text : buttonTexts) {
             JButton button = new JButton(text);
             switch (text) {
-                case "+" -> button.addActionListener(new OperacionesListener(display, this));
-                case "-" -> button.addActionListener(new OperacionesListener(display, this));
-                case "*" -> button.addActionListener(new OperacionesListener(display, this));
-                case "/" -> button.addActionListener(new OperacionesListener(display, this));
+                case "+", "-", "*", "/" -> button.addActionListener(new OperacionesListener(display, this));
                 case "Resultado" -> button.addActionListener(new ResultadoListener(display, this));
                 case "C" -> button.addActionListener(new LimpiarListener(display, this));
                 case "." -> button.addActionListener(new DecimalListener(display, this));

@@ -27,4 +27,3 @@ public class ResultadoListener implements ActionListener {
         calculadora.setOperacion("");
     }
 }
-
